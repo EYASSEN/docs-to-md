@@ -1,0 +1,134 @@
+{
+  "libarchive": {
+    "url": "https://raw.githubusercontent.com/libarchive/libarchive/v3.7.7/COPYING",
+    "sha256": "b2cdf763345de2de34cebf54394df3c61a105c3b71288603c251f2fa638200ba"
+  },
+  "libb2": {
+    "url": "https://raw.githubusercontent.com/BLAKE2/libb2/master/COPYING",
+    "sha256": "6a1ee543e5282cd9061881edf462e6fdab181f328da71fc2c9a6950a80e94d01"
+  },
+  "brotli": {
+    "url": "https://raw.githubusercontent.com/google/brotli/v1.1.0/LICENSE",
+    "sha256": "3d180008e36922a4e8daec11c34c7af264fed5962d07924aea928c38e8663c94"
+  },
+  "bzip2": {
+    "url": "https://raw.githubusercontent.com/libarchive/bzip2/bzip2-1.0.8/LICENSE",
+    "sha256": "c6dbbf828498be844a89eaa3b84adbab3199e342eb5cb2ed2f0d4ba7ec0f38a3"
+  },
+  "openssl": {
+    "url": "https://raw.githubusercontent.com/openssl/openssl/openssl-3.4.0/LICENSE.txt",
+    "sha256": "7d5450cb2d142651b8afa315b5f238efc805dad827d91ba367d8516bc9d49e7a"
+  },
+  "curl": {
+    "url": "https://raw.githubusercontent.com/curl/curl/curl-8_11_0/COPYING",
+    "sha256": "adb1fc06547fd136244179809f7b7c2d2ae6c4534f160aa513af9b6a12866a32"
+  },
+  "libdeflate": {
+    "url": "https://raw.githubusercontent.com/ebiggers/libdeflate/v1.22/COPYING",
+    "sha256": "4ad69099cb4374836fd27583d9991e2838cd86b6e4666ab26b2d32582c91e73a"
+  },
+  "expat": {
+    "url": "https://raw.githubusercontent.com/libexpat/libexpat/R_2_6_4/expat/COPYING",
+    "sha256": "122f2c27000472a201d337b9b31f7eb2b52d091b02857061a8880371612d9534"
+  },
+  "gcc-GPL3": {
+    "url": "https://raw.githubusercontent.com/gcc-mirror/gcc/releases/gcc-14.2.0/COPYING3",
+    "sha256": "8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903"
+  },
+  "gcc-runtime-exception": {
+    "url": "https://raw.githubusercontent.com/gcc-mirror/gcc/releases/gcc-14.2.0/COPYING.RUNTIME",
+    "sha256": "9d6b43ce4d8de0c878bf16b54d8e7a10d9bd42b75178153e3af6a815bdc90f74"
+  },
+  "giflib": {
+    "url": "https://raw.githubusercontent.com/mirrorer/giflib/master/COPYING",
+    "sha256": "0c9b7990ecdca88b676db232c226548ac408b279f550d424d996f0d83591dd8e"
+  },
+  "libiconv-LGPL": {
+    "url": "https://raw.githubusercontent.com/arthenica/libiconv/master/COPYING.LIB",
+    "sha256": "20e50fe7aae3e56378ebf0417d9de904f55a0e61e4df315333e632a4d3555d95"
+  },
+  "libidn2": {
+    "url": "https://raw.githubusercontent.com/libidn/libidn2/master/COPYING",
+    "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+  },
+  "gettext": {
+    "url": "https://raw.githubusercontent.com/autotools-mirror/gettext/master/COPYING",
+    "sha256": "e79e9c8a0c85d735ff98185918ec94ed7d175efc377012787aebcf3b80f0d90b"
+  },
+  "jbig-GPL2": {
+    "url": "https://raw.githubusercontent.com/gcc-mirror/gcc/master/COPYING",
+    "sha256": "231f7edcc7352d7734a96eef0b8030f77982678c516876fcb81e25b32d68564c"
+  },
+  "libjpeg-turbo": {
+    "url": "https://raw.githubusercontent.com/libjpeg-turbo/libjpeg-turbo/3.0.4/LICENSE.md",
+    "sha256": "e548c96c0c09397c94b5c5531836c02ff2c403f1f2b130cad8e3ec9439b5a7cc"
+  },
+  "libjpeg-BSD": {
+    "url": "https://raw.githubusercontent.com/libjpeg-turbo/libjpeg-turbo/3.0.4/README.ijg",
+    "sha256": "f4a85f8677ca4e41b185c0a9f7c31a30ddb9ce43c561483ee92ef12db37c2a10"
+  },
+  "leptonica": {
+    "url": "https://raw.githubusercontent.com/DanBloomberg/leptonica/1.85.0/leptonica-license.txt",
+    "sha256": "87829abb5bbb00b55a107365da89e9a33f86c4250169e5a1e5588505be7d5806"
+  },
+  "lerc": {
+    "url": "https://raw.githubusercontent.com/Esri/lerc/v4.0.0/LICENSE",
+    "sha256": "77a8b761727c75e2167b15bfdf61b2c0bcf8792271228bebe80779106ad00671"
+  },
+  "lz4": {
+    "url": "https://raw.githubusercontent.com/lz4/lz4/v1.10.0/lib/LICENSE",
+    "sha256": "8b58c446121a109ccf32edc094bba3010a3d85e4ee3702950db55e4d3e87736c"
+  },
+  "xz": {
+    "url": "https://raw.githubusercontent.com/tukaani-project/xz/v5.6.3/COPYING",
+    "sha256": "ee3b35b82f7bb0ba5fd9f13ca34ebbe757a59c05bfde5ab9d50ff4188ed33396"
+  },
+  "openjpeg": {
+    "url": "https://raw.githubusercontent.com/uclouvain/openjpeg/v2.5.2/LICENSE",
+    "sha256": "a6af136f3e15038a666b61f376612a07d9a4e48cb7c01adbf3e33b3f14ab49b6"
+  },
+  "libpng": {
+    "url": "https://raw.githubusercontent.com/pnggroup/libpng/v1.6.44/LICENSE",
+    "sha256": "7317e078e2d3b5d7ba5a6159e650945153262b44b76f6700f8e9edb261c5143e"
+  },
+  "libpsl": {
+    "url": "https://raw.githubusercontent.com/rockdaboot/libpsl/0.21.5/COPYING",
+    "sha256": "322392e6001b2b3b0fca705dc9f11f26e12441188ecde50eb1d22909980b2925"
+  },
+  "libssh2": {
+    "url": "https://raw.githubusercontent.com/libssh2/libssh2/libssh2-1.11.0/COPYING",
+    "sha256": "fda5e2522c58ba1f31c9f2044747616457466f4aebec16ade4af86e3a16a8e02"
+  },
+  "libtiff": {
+    "url": "https://raw.githubusercontent.com/libsdl-org/libtiff/v4.7.0/LICENSE.md",
+    "sha256": "0780558a8bfba0af1160ec1ff11ade4f41c0d7deafd6ecfc796b492a788e380d"
+  },
+  "libunistring": {
+    "url": "https://raw.githubusercontent.com/gnosis/libunistring/master/COPYING.LIB",
+    "sha256": "a853c2ffec17057872340eee242ae4d96cbf2b520ae27d903e1b2fef1a5f9d1c"
+  },
+  "libwebp": {
+    "url": "https://raw.githubusercontent.com/webmproject/libwebp/v1.4.0/COPYING",
+    "sha256": "5aec868f669e384a22372a4e8a1a6cd7d44c64cd451f960ca69cc170d1e13acf"
+  },
+  "libwebp-patents": {
+    "url": "https://raw.githubusercontent.com/webmproject/libwebp/v1.4.0/PATENTS",
+    "sha256": "cc3273e0694ea5896145e0677699b53471b03ea43021ddc50e7923fbb9f5023c"
+  },
+  "winpthreads": {
+    "url": "https://raw.githubusercontent.com/mingw-w64/mingw-w64/v12.0.0/mingw-w64-libraries/winpthreads/COPYING",
+    "sha256": "63263614cdd29f2f93cba85e992f041b31f9fc7b4033692f31269489a8a1b177"
+  },
+  "zstd-BSD": {
+    "url": "https://raw.githubusercontent.com/facebook/zstd/v1.5.6/LICENSE",
+    "sha256": "7055266497633c9025b777c78eb7235af13922117480ed5c674677adc381c9d8"
+  },
+  "zstd-GPL2": {
+    "url": "https://raw.githubusercontent.com/facebook/zstd/v1.5.6/COPYING",
+    "sha256": "f9c375a1be4a41f7b70301dd83c91cb89e41567478859b77eef375a52d782505"
+  },
+  "zlib": {
+    "url": "https://raw.githubusercontent.com/madler/zlib/v1.3.1/LICENSE",
+    "sha256": "845efc77857d485d91fb3e0b884aaa929368c717ae8186b66fe1ed2495753243"
+  }
+}
