@@ -13,7 +13,9 @@ build-cache/
 dist/
 release/
 vendor/
-java/
+# java/ holds only the Legacy reader source; the runtime and POI live in vendor/ (Cleanup21)
+java/*
+!java/LegacyReader.java
 data/
 test-results/
 test-work/

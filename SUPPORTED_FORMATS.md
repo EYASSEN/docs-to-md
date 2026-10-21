@@ -19,6 +19,6 @@ recoverable. Every OCR result requires review; partial conversions have explicit
 | MD | Exact byte-for-byte copy, intentional additional `.md` extension | Linked dependencies are inventoried but not rewritten/copied automatically. Original Markdown's active markup is not sanitized because exact copying is required. |
 | Other | Inventoried as unsupported | XLSB, RTF, ODT, ODS, ODP, archives, media, CAD, executables and arbitrary formats are not supported in this release. |
 
-Windows 11 Pro x64 build 26200 is the actual test platform. No Windows 10, UNC share,
-very long-path, ARM, clean-machine, or cross-drive compatibility claim is made without
-the separate verification listed in `ACCEPTANCE_REPORT.md`.
+Windows 11 Pro x64 build 26200 is the actual test platform. The Microsoft Store package
+installs on Windows 10 version 2004 or later (x64). Windows 10, UNC shares, very long paths,
+ARM and cross-drive use are not separately verified.
