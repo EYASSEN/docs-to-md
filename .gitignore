@@ -62,6 +62,7 @@ test_md/
 !tests/fixtures/hidden-ocr.pdf
 !tests/fixtures/pdf/
 !tests/fixtures/pdf/hidden-ocr.pdf
+!tests/fixtures/pdf/boq-sample.pdf
 !tests/fixtures/legacy/
 !tests/fixtures/legacy/*
 

@@ -11,7 +11,7 @@ from .dispatch import SUPPORTED
 from .render import cell, url
 
 HOMEPAGE='https://github.com/EYASSEN/docs-to-md'
-CONVERSION_REVISION=57
+CONVERSION_REVISION=58
 DEFAULTS={'language':'ara+eng','ocr':'auto','timeout':3600,'quality':'standard','decode_fonts':True,'ocr_engine':'onnx'}
 
 def code_fingerprint():

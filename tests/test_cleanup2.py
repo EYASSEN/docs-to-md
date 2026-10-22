@@ -86,7 +86,7 @@ def test_other_file_types_do_not_get_the_cleanup():
 
 
 def test_converter_revision_changed_with_the_output():
-    assert engine.CONVERSION_REVISION == 57
+    assert engine.CONVERSION_REVISION == 58
 
 
 # ---- shorter report ------------------------------------------------------------------------------

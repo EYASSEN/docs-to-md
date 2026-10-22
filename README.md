@@ -1,6 +1,6 @@
 # Docs to MD
 
-**Version 1.1.0 (conversion revision 57).** A Yassin Labs tool for Windows x64 that converts
+**Version 1.1.1 (conversion revision 58).** A Yassin Labs tool for Windows x64 that converts
 whole folders of PDF, Word, Excel, PowerPoint, image and text files to Markdown, with
 built-in Arabic and English OCR for scanned pages. Everything runs on your own computer:
 no internet connection, account, API key, Python, Java, Microsoft Office or OCR
@@ -10,7 +10,7 @@ installation is needed, and no document leaves the computer.
 - Website and privacy policy: https://eyassen.github.io/docs-to-md/
 - Supported formats and limits: [`SUPPORTED_FORMATS.md`](SUPPORTED_FORMATS.md)
 - Arabic quick start: [`QUICKSTART_AR.md`](QUICKSTART_AR.md)
-- What changed: [`RELEASE_NOTES_57.md`](RELEASE_NOTES_57.md)
+- What changed: [`RELEASE_NOTES_58.md`](RELEASE_NOTES_58.md)
 
 Windows 11 x64 is the tested system. The Store package installs on Windows 10 version 2004
 or later (x64); Windows 10, ARM and 32-bit Windows are not separately verified, and macOS
@@ -113,7 +113,7 @@ distributed by RapidOCR.
 
 ```powershell
 .\.venv\Scripts\python.exe -m pytest tests -q
-.\.venv\Scripts\python.exe scripts\acceptance.py --exe dist\DocsToMD\DocsToMD.exe --name packaged --expected-revision 57
+.\.venv\Scripts\python.exe scripts\acceptance.py --exe dist\DocsToMD\DocsToMD.exe --name packaged --expected-revision 58
 .\.venv\Scripts\python.exe scripts\make_7z.py --zip <portable zip from package.py>
 .\.venv\Scripts\python.exe scripts\make_msix.py
 ```

@@ -17,9 +17,26 @@ class ScanText(str):
         obj=super().__new__(cls,value);obj.parts=parts;return obj
 
 
-def _grid_transcription(image,grid,run,language,glyph_source=None):
+_FOREIGN=re.compile(r'[\u0370-\u03ff\u0400-\u04ff\u0590-\u05ff\u3040-\u30ff\u4e00-\u9fff]')
+_DIGITS=re.compile(r'[0-9\u0660-\u0669]+')
+
+def choose_engine_cell(engine_words,tesseract_words):
+    """Cleanup22: a ruled-table cell keeps the ONNX engine reading unless it is empty, contains letters
+    of another script (a misread unit such as "3\u03c1"), Latin letters where Tesseract read Arabic, or lost digit groups Tesseract found (Latin
+    numbers inside Arabic text). Number cells always prefer the engine when it read a number."""
+    if not engine_words:return False
+    etext=' '.join(w['text'].strip() for w in engine_words);ttext=' '.join(w['text'].strip() for w in tesseract_words)
+    if _FOREIGN.search(etext):return False
+    if numeric(etext):return True
+    latin=lambda t:len(re.findall('[A-Za-z]',t));arabic=lambda t:len(re.findall(r'[\u0621-\u064a]',t))
+    # Arabic text read as Latin letters by the English recogniser ("3e" for a unit, "aiell" for a header)
+    if latin(etext)>latin(ttext) and arabic(ttext)>latin(ttext):return False
+    if ttext and numeric(ttext):return False
+    return len(_DIGITS.findall(etext))>=len(_DIGITS.findall(ttext))
+
+def _grid_transcription(image,grid,run,language,glyph_source=None,engine_reader=None):
     rows=[];confidence=[];spans=[];rowspans=dict(grid.get('rowspans',{}));readings=[]
-    numeric_refinements=0;offsets={};items_split=0
+    numeric_refinements=0;offsets={};items_split=0;engine_cells=set()
     for r,row in enumerate(grid['rows']):
         cells=['']*grid['columns']
         for first,last,box in row:
@@ -35,8 +52,15 @@ def _grid_transcription(image,grid,run,language,glyph_source=None):
             result=run(_png(padded),['-l',language,'--psm','6','tsv'])
             if result.returncode:raise RuntimeError('Cell OCR failed')
             words=list(csv.DictReader(io.StringIO(result.stdout.decode('utf-8','replace')),delimiter='\t',quoting=csv.QUOTE_NONE))
-            from .scannumbers import refine_numeric_words
-            numeric_refinements+=refine_numeric_words(padded,[w for w in words if w.get('text','').strip()],run,_png,language)
+            engine_words=None
+            if engine_reader is not None:
+                try:engine_words=[w for w in engine_reader(padded.convert('RGB')) if w.get('text','').strip()]
+                except Exception:engine_words=None
+            if choose_engine_cell(engine_words,[w for w in words if w.get('text','').strip()]):
+                words=engine_words;engine_cells.add((r,first))
+            else:
+                from .scannumbers import refine_numeric_words
+                numeric_refinements+=refine_numeric_words(padded,[w for w in words if w.get('text','').strip()],run,_png,language)
             cells[first]=' '.join(w.get('text','').strip() for w in words if w.get('text','').strip())
             readings.append([r,first,box,[w for w in words if w.get('text','').strip()]])
         rows.append(cells)
@@ -63,6 +87,7 @@ def _grid_transcription(image,grid,run,language,glyph_source=None):
                     glyph_readings=[(r,a,bounds[r,a],ws) for r,a,bb,ws in readings]
                     glyph_resolution=300
             except (OSError,ValueError,KeyError,RuntimeError):pass
+        glyph_readings=[g for g in glyph_readings if (g[0],g[1]) not in engine_cells]
         digit_refinements=refine_digits(glyph_image,glyph_grid,rows,glyph_readings,run,_png,language,cell_content)
         percent_refinements=refine_percent(glyph_image,rows,glyph_readings,run,_png,cell_content)
     # A weak word cell on an Arabic-dominant table gets its own clean alternate.
@@ -70,6 +95,7 @@ def _grid_transcription(image,grid,run,language,glyph_source=None):
     if '+' in language and language.startswith('ara') and arabic>latin:
         for reading in readings:
             r,first,bounds,primary=reading;old=rows[r][first]
+            if (r,first) in engine_cells:continue
             if not old or numeric(old) or mean_confidence(primary)>=70:continue
             if not any(c.isalpha() for c in old):continue
             crop=cell_content(image.crop(bounds))
@@ -104,7 +130,7 @@ def _grid_transcription(image,grid,run,language,glyph_source=None):
     result=RuledRows(rows,spans,rowspans)
     result.ocr_review={'arabic_refinements':refined,'number_disagreements':disagreements,
                       'digit_refinements':digit_refinements,'percent_refinements':percent_refinements,
-                      'glyph_resolution':glyph_resolution,'numeric_refinements':numeric_refinements,'item_rows_split':items_split}
+                      'glyph_resolution':glyph_resolution,'numeric_refinements':numeric_refinements,'item_rows_split':items_split,'engine_cells':len(engine_cells)}
     return result,confidence
 
 def preflight(settings=None):
@@ -182,6 +208,9 @@ def _unreadable_scan(data,rows,run,settings,glyph_source,label):
     return (ScanText(UNREADABLE_NOTICE,[('text',UNREADABLE_NOTICE)]),
             [label+': unreadable scan; OCR found no reliable text, so none was exported. Review the retained page image.'],None)
 
+def review_engine(grid_rows):
+    return getattr(grid_rows,'ocr_review',{}).get('engine_cells',0)
+
 def transcribe(data,settings,work,label,rendered=False,threads=None,glyph_source=None):
     """Thread-safe OCR of PNG bytes. Returns (text, warnings, mean confidence or None).
     rendered=True skips deskew; a confident OSD reading can still correct a
@@ -242,12 +271,15 @@ def transcribe(data,settings,work,label,rendered=False,threads=None,glyph_source
             else: probe=None
             image,grid=best_ruled_grid(image)
             if grid:
-                grid_rows,grid_confidence=_grid_transcription(image,grid,run,ocr_language(settings),glyph_source)
+                engine_cells={'engine_reader':lambda cell:ocrengine.engine(threads).read(cell,settings['language'])} if use_engine else {}
+                grid_rows,grid_confidence=_grid_transcription(image,grid,run,ocr_language(settings),glyph_source,**engine_cells)
                 # Only suppress the grid if cell reading succeeded. Blank cells
                 # retain their slots; wrapped descriptions stay with their row.
                 from PIL import ImageDraw
                 outside=image.copy();ImageDraw.Draw(outside).rectangle(grid['bbox'],fill='white');data=_png(outside)
                 warnings.append(label+': ruled table read cell by cell; review merged cells and numerical values against the original.')
+                if review_engine(grid_rows):
+                    warnings.append(label+f": {review_engine(grid_rows)} table cells read by the ONNX OCR engine; the others by Tesseract.")
                 if grid.get('rowspans'):
                     warnings.append(label+': partial separators and vertical merged cells preserved; covered slots are not transcribed twice.')
                 if grid.get('layout_review'):

@@ -92,7 +92,7 @@ def test_report_starts_with_name_version_and_link(tmp_path):
     reports(tmp_path, meta, {'files': {'a.txt': {'status': 'converted', 'output': 'a.txt.md'}}, 'elapsed_seconds': 1})
     first = (meta / 'conversion_report.md').read_text(encoding='utf-8').splitlines()[0]
     assert first == f'Docs to MD {__version__} by Yassin Abd El Aal — {HOMEPAGE}'
-    assert __version__ == '1.1.0'
+    assert __version__ == '1.1.1'
 
 
 def test_compare_outputs(tmp_path, capsys):
