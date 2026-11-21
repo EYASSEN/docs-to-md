@@ -65,8 +65,18 @@ class JobProcess:
         if self.handle:
             self.k.CloseHandle(self.handle); self.handle = None
 
-def child_environment(temp):
+def child_environment(temp, threads=None):
+    """threads (Cleanup23): the number of pages a worker reads at once when several files run at
+    the same time. None keeps the old behaviour. The OCR engines keep their own thread settings, so
+    the text read is the same either way (Cleanup23c)."""
     env = os.environ.copy()
+    env.pop('DOCSTOMD_THREADS', None)
     env.update({'OMP_THREAD_LIMIT': '2', 'OMP_NUM_THREADS': '2', 'TEMP': str(temp), 'TMP': str(temp),
                 'HF_HUB_OFFLINE': '1', 'HF_HUB_DISABLE_TELEMETRY': '1', 'DO_NOT_TRACK': '1'})
+    if threads: env['DOCSTOMD_THREADS'] = str(int(threads))
     return env
+
+def thread_share():
+    """The core share set by child_environment for this worker, or None for the whole PC."""
+    value = os.environ.get('DOCSTOMD_THREADS', '').strip()
+    return int(value) if value.isdigit() and int(value) >= 1 else None

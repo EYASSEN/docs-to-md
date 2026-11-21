@@ -173,6 +173,7 @@ def test_conversion_signature_tracks_the_actual_source_code(tmp_path,monkeypatch
 
 def test_cancelled_worker_does_not_count_unread_pages_or_remaining_files(tmp_path,monkeypatch):
     import foldertomd.engine as E
+    monkeypatch.setenv('DOCSTOMD_PARALLEL_FILES','1')   # one file at a time; the parallel case is in test_cleanup23
     source=tmp_path/'input';source.mkdir()
     for name in ('a.pdf','b.pdf'): (source/name).write_bytes(b'PDF test')
     cancel=threading.Event();events=[]

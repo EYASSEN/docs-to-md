@@ -1,6 +1,6 @@
 # Docs to MD
 
-**Version 1.1.1 (conversion revision 58).** A Yassin Labs tool for Windows x64 that converts
+**Version 1.1.2 (conversion revision 58).** A Yassin Labs tool for Windows x64 that converts
 whole folders of PDF, Word, Excel, PowerPoint, image and text files to Markdown, with
 built-in Arabic and English OCR for scanned pages. Everything runs on your own computer:
 no internet connection, account, API key, Python, Java, Microsoft Office or OCR
@@ -10,7 +10,7 @@ installation is needed, and no document leaves the computer.
 - Website and privacy policy: https://eyassen.github.io/docs-to-md/
 - Supported formats and limits: [`SUPPORTED_FORMATS.md`](SUPPORTED_FORMATS.md)
 - Arabic quick start: [`QUICKSTART_AR.md`](QUICKSTART_AR.md)
-- What changed: [`RELEASE_NOTES_58.md`](RELEASE_NOTES_58.md)
+- What changed: [`RELEASE_NOTES_1.1.2.md`](RELEASE_NOTES_1.1.2.md)
 
 Windows 11 x64 is the tested system. The Store package installs on Windows 10 version 2004
 or later (x64); Windows 10, ARM and 32-bit Windows are not separately verified, and macOS
@@ -74,7 +74,10 @@ images read automatically, Standard accuracy, all worksheets, and a per-file tim
 timeout instead of silently cutting rows, columns or pages.
 
 Progress shows the files found and finished, the current file and stage, and the elapsed
-time. **Cancel** stops the job, keeps finished outputs and removes its temporary workspace.
+time. Small files are converted up to three at a time, each with a share of the processor, so a
+folder of many Word, Excel and short PDF files finishes sooner; a long scanned PDF still runs
+alone with the whole processor. The number depends on the processor cores and free memory, and the
+report states it. The output is the same either way. **Cancel** stops the job, keeps finished outputs and removes its temporary workspace.
 Running the same folder again only converts files that are new or changed, or that failed;
 unchanged files are skipped while their outputs still match the recorded hashes. Markdown
 you edited by hand is never silently overwritten.

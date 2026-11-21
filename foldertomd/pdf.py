@@ -106,6 +106,10 @@ def _read_region(ctx,page,rect,label,dpi=300):
 
 def _workers():
     # Parallel OCR of whole pages: leave one core free for the window and the rest of Windows.
+    # When several files run at once (Cleanup23) the worker keeps to its share of the cores.
+    from .runtime import thread_share
+    share=thread_share()
+    if share: return max(1,min(6,share))
     return max(1,min(6,(os.cpu_count() or 2)-1))
 
 def _visible_text(page,blocks,hidden):

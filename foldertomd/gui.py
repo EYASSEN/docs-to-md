@@ -510,6 +510,10 @@ class App:
             self._bar(self.progress,self.pages[0],self.pages[1]); self.files_text.configure(text=format_pages_progress(self.pages[0],self.pages[1]))
             self.files_count.configure(text=f'{done} of {total} files')
         else: self._bar(self.progress,done,total); self.files_text.configure(text=f'{done} of {total} files')
+        if event.get('running',0)>1 and 'result' not in event:
+            self.files_count.configure(text=f"{done} of {total} files  •  {event['running']} at once")
+        # Cleanup23: events of the other files running in parallel only move the overall bar.
+        if event.get('background'): return
         if event.get('current'):
             name=event['current']; ext=os.path.splitext(name)[1].lower()
             self._show_name(name,t['TEXT'])

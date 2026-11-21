@@ -127,8 +127,10 @@ def test_cancel_and_resume(tmp_path):
     cancel=threading.Event()
     def notify(e):
         if e.get('completed',0)>=1:cancel.set()
-    a=run_job(tmp_path,{'ocr':'off'},cancel,notify);assert a['summary']['converted']==1;assert a['summary']['cancelled']==5
-    b=run_job(tmp_path,{'ocr':'off'});assert b['summary']['unchanged']==1;assert b['summary']['converted']==5
+    # Cleanup23: files already running when Cancel is pressed may still finish, so several can be converted.
+    a=run_job(tmp_path,{'ocr':'off'},cancel,notify);done=a['summary'].get('converted',0);left=a['summary'].get('cancelled',0)
+    assert 1<=done<=a['parallel_files'] and done+left==6
+    b=run_job(tmp_path,{'ocr':'off'});assert b['summary'].get('unchanged',0)==done;assert b['summary'].get('converted',0)==left
 
 def test_failed_replace_retains_output(tmp_path,monkeypatch):
     source=tmp_path/'source';source.mkdir();f=source/'a.txt';f.write_text('original');a=run_job(source,{'ocr':'off'});out=Path(a['output'])/'a.txt.md';old=out.read_bytes();f.write_text('new contents')
@@ -166,7 +168,10 @@ def test_locked_input_is_accountable(tmp_path):
         result=run_job(tmp_path,{'ocr':'off'});assert result['summary']['failed']==1;assert result['summary']['converted']==1
     finally:k.CloseHandle(h)
 
-def test_cancel_during_workbook_and_ocr(tmp_path):
+def test_cancel_during_workbook_and_ocr(tmp_path,monkeypatch):
+    # One file at a time: with OCR switched on in the third run all three files are converted again, and a
+    # Cancel during the image would also stop the workbook running beside it (Cleanup23, correct behaviour).
+    monkeypatch.setenv('DOCSTOMD_PARALLEL_FILES','1')
     import xlsxwriter
     from PIL import Image,ImageDraw,ImageFont
     source=tmp_path/'source';source.mkdir();(source/'0-complete.txt').write_text('Keep this completed file')
